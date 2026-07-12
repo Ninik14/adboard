@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load catalog_filters %}
+
+
+{% block content %}
+
+<a href="{% url 'catalog' %}" >← Back to Catalog</a>
+
+<h1>{{ product.title }}</h1>
+
+{% if product.image %}
+    <img src="{{ product.image.url }}" width="300">
+{% endif %}
+
+<p><strong>Category:</strong> {{ product.get_category_display }}</p>
+
+<p><strong>Price:</strong> {{ product.price }} ₾</p>
+
+<p><strong>Status:</strong> {{ product.status }}</p>
+
+<p><strong>Description:</strong></p>
+
+<p>{{ product.description }}</p>
+
+{{product.created_at|days_since}}
+
+
+<hr/>
+
+
+<h2>Seller Information</h2>
+
+<p><strong>Seller:</strong>{{product.seller.username}} </p>
+<p><strong>Phone:</strong>{{product.seller.profile.phone}} </p>
+
+{% if product.seller.profile.avatar %}
+
+    <img src="{{product.seller.profile.avarat.url }}" width="150" />
+
+{% endif %}
+
+{% endblock %}
