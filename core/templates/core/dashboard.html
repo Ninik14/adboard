@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h1>Dashboard</h1>
-<p>Welcome, {{ request.user.username }}</p>
+
+<h2>Statistics</h2>
+
+<p>Total products: {{ total_products }}</p>
+<p>Sold products: {{ sold }}</p>
+<p>Available products: {{ available }}</p>
+
+<h2>Recent products</h2>
+
+{% for product in last_products %}
+    <p>
+        {{ product.title }}   |   {{ product.get_status_display }}   |   {{ product.created_at }}
+    </p>
+{% empty %}
+    <p>You have no products yet.</p>
+{% endfor %}
+
+<hr>
+
+<a href="{% url 'create_product' %}">Add new product</a>
+<a href="{% url 'dashboard_products' %}">My products</a>
+<a href="{% url 'profile' %}">Profile</a>
+
 {% endblock %}

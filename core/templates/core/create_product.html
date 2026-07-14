@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add Product</h1>
+
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Create Product</button>
+</form>
+
+<a href="{% url 'dashboard_products' %}">Cancel</a>
+
+{% endblock %}

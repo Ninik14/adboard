@@ -1,0 +1,71 @@
+{% extends '../base.html' %}
+
+{% block content%}
+
+<form method="get">
+    <select name="status">
+        <option value="">All statuses</option>
+        {% for value, label in statuses%}
+            <option value="{{value}}" {% if selected_status == value %} selected {% endif %}>{{label}}</option>
+        {%endfor%}
+    </select>
+
+    <select name="category">
+        <option value="">All categories</option>
+        {% for value, label in categories%}
+            <option value="{{value}}" {% if selected_category == value %} selected {% endif %}>{{label}}</option>
+        {%endfor%}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+
+{% for product in page_obj %}
+
+    <hr>
+
+    <h3>{{ product.title }}</h3>
+    <p>Status: {{ product.get_status_display }}</p>
+    <p>Category: {{ product.get_category_display }}</p>
+    <p>Price: {{ product.price }} ₾</p>
+    <a href="{% url 'edit_product' product.pk %}">edit</a>
+    <a href="{% url 'delete_product' product.pk %}">delete</a>
+
+    <form method="post" action="{% url 'toggle_status' product.pk %}">
+        {% csrf_token %}
+
+        <button type="submit">
+            {% if product.status == 'available' %}
+                sold
+            {% else %}
+                Available
+            {% endif %}
+        </button>
+    </form> 
+
+{% empty %}
+
+    <p>No products found.</p>
+
+{% endfor %}
+
+
+{% with request.GET.urlencode as query %}
+
+    {% if page_obj.has_previous %}
+        <a href="?{{ query }}&page={{ page_obj.previous_page_number }}">
+            Previous
+        </a>
+    {% endif %}
+
+    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+
+    {% if page_obj.has_next %}
+        <a href="?{{ query }}&page={{ page_obj.next_page_number }}">
+            Next
+        </a>
+    {% endif %}
+
+{% endwith %}
+
+{% endblock %}
