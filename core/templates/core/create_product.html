@@ -2,15 +2,152 @@
 
 {% block content %}
 
-<h1>Add Product</h1>
+<div class="container py-4">
 
-<form method="post" enctype="multipart/form-data" novalidate>
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="mb-4">
+        <p class="text-muted small mb-1">
+            Dashboard > My Products > Add Product
+        </p>
 
-    <button type="submit">Create Product</button>
-</form>
+        <h2 class="fw-bold">
+            Add New Product
+        </h2>
 
-<a href="{% url 'dashboard_products' %}">Cancel</a>
+        <p class="text-muted">
+            Fill in the information below to publish your advertisement.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+
+                {% csrf_token %}
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Title
+                    </label>
+
+                    {{ form.title }}
+
+                    {% for error in form.title.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Category
+                        </label>
+
+                        {{ form.category }}
+
+                        {% for error in form.category.errors %}
+                            <div class="text-danger small">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        {{ form.status }}
+
+                        {% for error in form.status.errors %}
+                            <div class="text-danger small">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Price (₾)
+                    </label>
+
+                    {{ form.price }}
+
+                    {% for error in form.price.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Description
+                    </label>
+
+                    {{ form.description }}
+
+                    {% for error in form.description.errors %}
+                        <div class="text-danger small">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+                        Product Image
+                    </label>
+
+                    {{ form.image }}
+
+                    {% for error in form.image.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Create Product
+                    </button>
+
+                    <a
+                        href="{% url 'dashboard_products' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

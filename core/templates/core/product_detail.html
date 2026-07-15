@@ -1,42 +1,135 @@
 {% extends "base.html" %}
 {% load catalog_filters %}
 
-
 {% block content %}
 
-<a href="{% url 'dashboard_products' %}" >← Back to My products</a>
+<div class="container py-4">
 
-<h1>{{ product.title }}</h1>
+    <div class="row g-4">
 
-{% if product.image %}
-    <img src="{{ product.image.url }}" width="300">
-{% endif %}
+        <!-- Product image -->
+        <div class="col-lg-5">
 
-<p><strong>Category:</strong> {{ product.get_category_display }}</p>
+            <div class="card shadow-sm">
 
-<p><strong>Price:</strong> {{ product.price }} ₾</p>
+                {% if product.image %}
+                    <img
+                        src="{{ product.image.url }}"
+                        alt="{{ product.title }}"
+                        class="product-detail-image"
+                    >
+                {% else %}
+                    <div class="product-detail-placeholder">
+                        No image available
+                    </div>
+                {% endif %}
 
-<p><strong>Status:</strong> {{ product.status }}</p>
+            </div>
 
-<p><strong>Description:</strong></p>
+            <a
+                href="{% url 'catalog' %}"
+                class="btn btn-outline-secondary mt-3"
+            >
+                ← Back to Catalog
+            </a>
 
-<p>{{ product.description }}</p>
-
-{{product.created_at|days_since}}
+        </div>
 
 
-<hr/>
+        <!-- Product information -->
+        <div class="col-lg-7">
 
+            <div class="d-flex gap-2 mb-2">
 
-<h2>Seller Information</h2>
+                <span class="badge category-badge">
+                    {{ product.get_category_display }}
+                </span>
 
-<p><strong>Seller:</strong>{{product.seller.username}} </p>
-<p><strong>Phone:</strong>{{product.seller.profile.phone}} </p>
+                {% if product.status == "available" %}
+                    <span class="badge bg-success">
+                        {{ product.get_status_display }}
+                    </span>
+                {% else %}
+                    <span class="badge bg-secondary">
+                        {{ product.get_status_display }}
+                    </span>
+                {% endif %}
 
-{% if product.seller.profile.avatar %}
+            </div>
 
-    <img src="{{product.seller.profile.avarat.url }}" width="150" />
+            <h3 class="fw-bold mb-2">
+                {{ product.title }}
+            </h3>
 
-{% endif %}
+            <p class="fs-3 fw-bold text-success mb-3">
+                {{ product.price }} ₾
+            </p>
+
+            <hr>
+
+            <h5 class="fw-bold">
+                Description
+            </h5>
+
+            <p class="text-muted product-description">
+                {{ product.description }}
+            </p>
+
+            <p class="small text-muted">
+                {{ product.created_at|days_since }}
+            </p>
+
+            <hr>
+
+            <!-- Seller block -->
+            <div class="card seller-card shadow-sm">
+                <div class="card-body">
+
+                    <h5 class="fw-bold mb-3">
+                        Seller Information
+                    </h5>
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        {% if product.seller.profile.avatar %}
+                            <img
+                                src="{{ product.seller.profile.avatar.url }}"
+                                alt="{{ product.seller.username }}"
+                                class="seller-avatar"
+                            >
+                        {% else %}
+                            <div class="seller-avatar-placeholder">
+                                {{ product.seller.username|first|upper }}
+                            </div>
+                        {% endif %}
+
+                        <div>
+
+                            <h6 class="fw-bold mb-1">
+                                {{ product.seller.username }}
+                            </h6>
+
+                            {% if product.seller.profile.phone %}
+                                <p class="text-success mb-0">
+                                    {{ product.seller.profile.phone }}
+                                </p>
+                            {% else %}
+                                <p class="text-muted mb-0">
+                                    Phone number not provided
+                                </p>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

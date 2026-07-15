@@ -2,13 +2,159 @@
 
 {% block content %}
 
-<h2>Edit Profile</h2>
+<div class="container py-4">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="row g-4">
 
-    <button type="submit">Save</button>
-</form>
+        <!-- Left Card -->
+
+        <div class="col-lg-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    {% if request.user.profile.avatar %}
+                        <img
+                            src="{{ request.user.profile.avatar.url }}"
+                            class="rounded-circle mb-3"
+                            width="140"
+                            height="140"
+                            style="object-fit: cover;"
+                        >
+                    {% else %}
+
+                        <div
+                            class="rounded-circle d-flex justify-content-center align-items-center mx-auto mb-3"
+                            style="
+                                width:140px;
+                                height:140px;
+                                background:#d8efec;
+                                font-size:48px;
+                                color:#0d7b72;
+                                font-weight:bold;
+                            "
+                        >
+                            {{ request.user.username|first|upper }}
+                        </div>
+
+                    {% endif %}
+
+                    <h5 class="fw-bold">
+                        {{ request.user.username }}
+                    </h5>
+
+                    <p class="text-muted">
+                        {{ request.user.email }}
+                    </p>
+
+                    <hr>
+
+                    <div class="text-start">
+
+                        <p>
+                            <strong>Phone:</strong><br>
+                            {{ request.user.profile.phone|default:"Not added" }}
+                        </p>
+
+                        <p>
+                            <strong>Bio:</strong><br>
+                            {{ request.user.profile.bio|default:"No bio yet." }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Card -->
+
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-4">
+                        Edit Profile
+                    </h4>
+
+                    <form
+                        method="post"
+                        enctype="multipart/form-data"
+                        novalidate
+                    >
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Phone
+                            </label>
+
+                            {{ form.phone }}
+
+                            {% for error in form.phone.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Bio
+                            </label>
+
+                            {{ form.bio }}
+
+                            {% for error in form.bio.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Avatar
+                            </label>
+
+                            {{ form.avatar }}
+
+                            {% for error in form.avatar.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <button
+                            class="btn btn-success"
+                            type="submit"
+                        >
+                            Save Changes
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

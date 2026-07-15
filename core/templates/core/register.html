@@ -1,14 +1,122 @@
-{% extends "../base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 
-<h1>Register</h1>
+<div class="container py-5">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
+    <div class="row justify-content-center">
 
-    <button type="submit">Register</button>
-</form>
+        <div class="col-lg-5 col-md-7">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-center fw-bold mb-2">
+                        Create Account
+                    </h2>
+
+                    <p class="text-center text-muted mb-4">
+                        Register to start using GeoBazaar.
+                    </p>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Username
+                            </label>
+
+                            {{ form.username }}
+
+                            {% for error in form.username.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            {{ form.email }}
+
+                            {% for error in form.email.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            {{ form.password1 }}
+
+                            {% for error in form.password1.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Confirm Password
+                            </label>
+
+                            {{ form.password2 }}
+
+                            {% for error in form.password2.errors %}
+                                <div class="text-danger small">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-success w-100"
+                        >
+                            Register
+                        </button>
+
+                    </form>
+
+                    <hr>
+
+                    <p class="text-center mb-0">
+
+                        Already have an account?
+
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

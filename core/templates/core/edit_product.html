@@ -2,16 +2,118 @@
 
 {% block content %}
 
-<h1>Edit Product</h1>
+<div class="container py-4">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+    <div class="mb-4">
+        <p class="text-muted small mb-1">
+            Dashboard > My Products > Edit Product
+        </p>
 
-    {{ form.as_p }}
+        <h2 class="fw-bold">
+            Edit Product
+        </h2>
 
-    <button type="submit">Save Changes</button>
-</form>
+        <p class="text-muted">
+            Update the information below.
+        </p>
+    </div>
 
-<a href="{% url 'dashboard_products' %}">Cancel</a>
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    {{ form.title }}
+
+                    {% for error in form.title.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Category</label>
+                        {{ form.category }}
+
+                        {% for error in form.category.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Status</label>
+                        {{ form.status }}
+
+                        {% for error in form.status.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price (₾)</label>
+                    {{ form.price }}
+
+                    {% for error in form.price.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    {{ form.description }}
+
+                    {% for error in form.description.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Product Image</label>
+                    {{ form.image }}
+
+                    {% for error in form.image.errors %}
+                        <div class="text-danger small mt-1">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="d-flex gap-2">
+
+                    <button type="submit" class="btn btn-success">
+                        Save Changes
+                    </button>
+
+                    <a
+                        href="{% url 'dashboard_products' %}"
+                        class="btn btn-outline-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
 
 {% endblock %}

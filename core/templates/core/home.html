@@ -1,16 +1,151 @@
 {% extends "base.html" %}
 
+{% block hero %}
+
+<section class="hero-section text-white">
+    <div class="container text-center py-5">
+
+        <h1 class="display-4 fw-bold mb-3">
+            GeoBazaar
+        </h1>
+
+        <p class="lead hero-text mb-4">
+            Discover products, publish advertisements,
+            and connect with sellers easily.
+        </p>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+
+            <a
+                href="{% url 'catalog' %}"
+                class="btn btn-success btn-lg px-4"
+            >
+                Browse Catalog →
+            </a>
+
+            {% if not request.user.is_authenticated %}
+                <a
+                    href="{% url 'register' %}"
+                    class="btn btn-warning btn-lg px-4"
+                >
+                    Create Account
+                </a>
+            {% else %}
+                <a
+                    href="{% url 'create_product' %}"
+                    class="btn btn-warning btn-lg px-4"
+                >
+                    Add Product
+                </a>
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
 {% block content %}
 
-<h1>GeoBazaar</h1>
+<section class="container py-5">
 
-<p>ელექტრონული განცხადებების პლატფორმა.</p>
+    <div class="text-center mb-4">
+        <h2 class="section-title">
+            Platform Statistics
+        </h2>
+    </div>
 
-<h2>სტატისტიკა</h2>
+    <div class="row g-4 justify-content-center">
 
-<p>სულ განცხადება: {{ total_products }}</p>
-<p>სულ გამყიდველი: {{ total_sellers }}</p>
+        <div class="col-md-5">
+            <div class="stat-card stat-card-green h-100">
 
+                <h3 class="fw-bold">
+                    {{ total_products }}
+                </h3>
 
+                <p class="mb-0 text-muted">
+                    Total products
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="stat-card stat-card-blue h-100">
+
+                <h3 class="fw-bold">
+                    {{ total_sellers }}
+                </h3>
+
+                <p class="mb-0 text-muted">
+                    Total sellers
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<hr class="container">
+
+<section class="container py-4">
+
+    <div class="text-center mb-4">
+        <h2 class="section-title">
+            Why GeoBazaar?
+        </h2>
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="feature-card h-100 text-center">
+
+                <h4 class="fw-semibold">
+                    Browse Products
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Search advertisements by category,
+                    price range, and product name.
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card h-100 text-center">
+
+                <h4 class="fw-semibold">
+                    Publish Ads
+                </h4>
+
+                <p class="text-muted mb-0">
+                    Registered users can publish and manage
+                    their own product advertisements.
+                </p>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card h-100 text-center">
+
+                <h4 class="fw-semibold">
+                    Contact Sellers
+                </h4>
+
+                <p class="text-muted mb-0">
+                    View seller information and contact them
+                    directly from the product page.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section>
 
 {% endblock %}

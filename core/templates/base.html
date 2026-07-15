@@ -1,51 +1,160 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>AdBoard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GeoBazaar</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
 
-{% if request.user.is_authenticated %}
-   <span>{{request.user.username}}</span>
-   {% if request.user.profile.avatar %}
-    <img src="{{ request.user.profile.avatar.url }}" width="50" height="50">
-   {% endif %}
-   <a href="{% url 'dashboard' %}">Dashboard</a>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-{% else %}
+<body class="bg-light">
 
-    <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'register' %}">Register</a>
-{% endif %}
+<header class="site-header">
 
-<hr>
+    <nav class="navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold me-4" href="{% url 'home' %}">
+                GeoBazaar
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                {% if request.user.is_authenticated %}
+
+                    <div class="navbar-nav me-auto">
+                        <a class="nav-link" href="{% url 'dashboard' %}">
+                            Dashboard
+                        </a>
+
+                        <a class="nav-link" href="{% url 'catalog' %}">
+                            Catalog
+                        </a>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+
+                        <a
+                            href="{% url 'profile' %}"
+                            class="d-flex align-items-center gap-2 text-decoration-none text-white"
+                        >
+                            {% if request.user.profile.avatar %}
+                                <img
+                                    src="{{ request.user.profile.avatar.url }}"
+                                    alt="Avatar"
+                                    width="40"
+                                    height="40"
+                                    class="rounded-circle"
+                                    style="object-fit: cover;"
+                                >
+                            {% else %}
+                                <div class="avatar-circle">
+                                    {{ request.user.username|first|upper }}
+                                </div>
+                            {% endif %}
+
+                            <span>{{ request.user.username }}</span>
+                        </a>
+
+                        <form
+                            method="post"
+                            action="{% url 'logout' %}"
+                            class="m-0"
+                        >
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-outline-light btn-sm"
+                            >
+                                Logout
+                            </button>
+                        </form>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="navbar-nav me-auto">
+                        <a class="nav-link" href="{% url 'catalog' %}">
+                            Catalog
+                        </a>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <a class="nav-link text-white" href="{% url 'login' %}">
+                            Login
+                        </a>
+
+                        <a class="nav-link text-white" href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </div>
+
+                {% endif %}
+
+            </div>
+        </div>
+    </nav>
+
+    {% block hero %}
+    {% endblock %}
+
+</header>
 
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show"
-             role="alert">
+    <div class="container mt-3">
 
-            {{ message }}
+        {% for message in messages %}
+            <div
+                class="alert alert-{{ message.tags }} alert-dismissible fade show"
+                role="alert"
+            >
+                {{ message }}
 
-            <button type="button"
+                <button
+                    type="button"
                     class="btn-close"
                     data-bs-dismiss="alert"
-                    aria-label="Close">
-            </button>
-        </div>
-    {% endfor %}
+                    aria-label="Close"
+                ></button>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endif %}
 
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
 
-{% block content %}
-{% endblock %}
+<footer class="site-footer text-center py-4 mt-5">
+    GeoBazaar © 2026 · Built with Django
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

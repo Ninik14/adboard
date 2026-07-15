@@ -1,24 +1,82 @@
 {% extends "base.html" %}
+{% load catalog_filters %}
 
 {% block content %}
 
-<h2>Delete Product</h2>
+<div class="container py-4">
 
-<p>
-    Are you sure you want to delete
-    <strong>{{ product.title }}</strong>?
-</p>
+    <div class="row justify-content-center">
 
-<form method="post">
-    {% csrf_token %}
+        <div class="col-lg-6 col-md-8">
 
-    <button type="submit">
-        Yes, Delete
-    </button>
-</form>
+            <div class="card shadow-sm border-danger">
 
-<a href="{% url 'dashboard_products' %}">
-    Cancel
-</a>
+                <div class="card-header bg-danger text-white text-center py-3">
+                    <h5 class="mb-0 fw-bold">
+                        Delete Product
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <p class="text-center mb-3">
+                        Are you sure you want to delete this product?
+                    </p>
+
+                    <div class="border rounded bg-light p-3 mb-3">
+
+                        <h6 class="fw-bold mb-2">
+                            {{ product.title }}
+                        </h6>
+
+                        <p class="small text-muted mb-0">
+                            <strong>Price:</strong> {{ product.price }} ₾
+                            |
+                            <strong>Category:</strong> {{ product.get_category_display }}
+                            |
+                            <strong>Published:</strong> {{ product.created_at|days_since }}
+                        </p>
+
+                    </div>
+
+                    <div class="alert alert-danger text-center small py-2 mb-3">
+                        This action cannot be undone.
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row g-2">
+
+                            <div class="col-6">
+                                <button
+                                    type="submit"
+                                    class="btn btn-danger btn-sm w-100 py-2"
+                                >
+                                    Yes, Delete
+                                </button>
+                            </div>
+
+                            <div class="col-6">
+                                <a
+                                    href="{% url 'dashboard_products' %}"
+                                    class="btn btn-outline-secondary btn-sm w-100 py-2"
+                                >
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

@@ -1,17 +1,8 @@
-
 env/
 venv/
-
-
 __pycache__/
 *.py[cod]
-
-
 db.sqlite3
 media/
-
-
 .env
-
-
 .DS_Store

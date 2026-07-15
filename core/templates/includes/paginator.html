@@ -1,0 +1,41 @@
+
+    {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?page={{ page_obj.previous_page_number }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&search={{ search }}"
+                        >
+                            Previous
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for number in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == number %}active{% endif %}">
+                        <a
+                            class="page-link"
+                            href="?page={{ number }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&search={{ search }}"
+                        >
+                            {{ number }}
+                        </a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a
+                            class="page-link"
+                            href="?page={{ page_obj.next_page_number }}&category={{ selected_category }}&min_price={{ min_price }}&max_price={{ max_price }}&search={{ search }}"
+                        >
+                            Next
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    {% endif %}
